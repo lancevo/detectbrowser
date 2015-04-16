@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>test</title>
+  <script src="detectbrowser.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    table, tr, td, th {
+      border: 1px solid #333;
+    }
+    th, td {
+      padding: 2px;
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body>
+
+<table id="results">
+  <thead>
+  <tr>
+    <th>browser</th>
+    <th>version</th>
+    <th>userAgent</th>
+  </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<script>
+
+  // samples http://www.useragentstring.com/pages/Internet%20Explorer/
+
+  var userAgents = [
+    'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko' // ie 11
+    ,'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko' // ie 11
+    ,'Mozilla/4.0 (Compatible; MSIE 8.0; Windows NT 5.2; Trident/6.0)' // ie 10
+    ,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0)' // ie 9
+    ,'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)' // ie 8
+    ,'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)' //ie 7
+    ,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A' // safari 7
+    ,'Mozilla/5.0 (Windows; U; Windows NT 6.0; ru-RU) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16' // safari 4
+    ,'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; de-de) AppleWebKit/525.28.3 (KHTML, like Gecko) Version/3.2.3 Safari/525.28.3' // safari 3
+    ,'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16' // opera 12
+    ,'Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14' // opera 12
+    ,'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0' // firefox 36
+  ]
+
+  $(document).ready(function(){
+    var table = $('#results tbody');
+    userAgents.forEach(function(ua){
+
+      var br = detectBrowser(ua),
+          str = '<tr><td>' + br.browser + '</td><td>'+ br.version + '</td><td>'+ ua + '</td></tr>';
+
+      table.append(str);
+    })
+  });
+
+
+</script>
+</body>
+</html>
