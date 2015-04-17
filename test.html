@@ -16,17 +16,43 @@
       padding: 2px;
       vertical-align: top;
     }
+
+    .legend {
+      display:inline-block;
+      width:100px;
+      border:1px solid #ccc;
+      text-align: center;
+      padding:3px;
+      margin-bottom:20px;
+    }
+
+    .pass {
+      background:green;
+    }
+    .fail {
+      background:red;
+    }
+    .no-test {
+
+    }
   </style>
 </head>
 <body>
   
 <h3 id="browser"></h3>
 
+<div class="legend pass">Pass</div>
+<div class="legend fail">Fail</div>
+<div class="legend no-test">Not tested</div>
+
+
 <table id="results">
   <thead>
   <tr>
     <th>browser</th>
     <th>version</th>
+    <th>os</th>
+    <th>mobile?</th>
     <th>userAgent</th>
   </tr>
   </thead>
@@ -39,34 +65,142 @@
   // samples http://www.useragentstring.com/pages/Internet%20Explorer/
 
   var userAgents = [
-    'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko' // ie 11
-    ,'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko' // ie 11
-    ,'Mozilla/4.0 (Compatible; MSIE 8.0; Windows NT 5.2; Trident/6.0)' // ie 10
-    ,'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0)' // ie 9
-    ,'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)' // ie 8
-    ,'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)' //ie 7
-    ,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A' // safari 7
-    ,'Mozilla/5.0 (Windows; U; Windows NT 6.0; ru-RU) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16' // safari 4
-    ,'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; de-de) AppleWebKit/525.28.3 (KHTML, like Gecko) Version/3.2.3 Safari/525.28.3' // safari 3
-    ,'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16' // opera 12
-    ,'Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14' // opera 12
-    ,'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0' // firefox 36
-  ]
+
+    {
+      browser : {
+        name : 'msie',
+        os: 'windows',
+        mobile : '' // test
+      },
+      tests: [
+        {version:11, ua : 'Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko' }
+        ,{version:11, ua : 'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko' }
+        ,{version:10, ua : 'Mozilla/4.0 (Compatible; MSIE 8.0; Windows NT 5.2; Trident/6.0)'}
+        ,{version:9, ua : 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0)'}
+        ,{version:8, ua : 'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)'}
+        ,{version:7, ua : 'Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 5.2; .NET CLR 1.1.4322; .NET CLR 2.0.50727; InfoPath.2; .NET CLR 3.0.04506.30)'}
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'safari',
+        mobile : '' // test
+      },
+      tests: [
+        {version:7, ua : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A' }
+        ,{version:4, ua : 'Mozilla/5.0 (Windows; U; Windows NT 6.0; ru-RU) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16' }
+        ,{version:3, ua : 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; de-de) AppleWebKit/525.28.3 (KHTML, like Gecko) Version/3.2.3 Safari/525.28.3'}
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'safari',
+        mobile : 'ipad' // test
+      },
+      tests: [
+        {version:5, ua : 'Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko ) Version/5.1 Mobile/9B176 Safari/7534.48.3' }
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'safari',
+        mobile : 'iphone' // test
+      },
+      tests: [
+        {version:5, ua : 'Mozilla/5.0 (iPhone; U; fr; CPU iPhone OS 4_2_1 like Mac OS X; fr) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148a Safari/6533.18.5' }
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'safari',
+        mobile : 'ipod' // test
+      },
+      tests: [
+        {version:5, ua : 'Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5'}
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'opera',
+        mobile : '' // test
+      },
+      tests: [
+        {version:12, ua : 'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16' }
+        ,{version:12, ua : 'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16' }
+        ,{version:12, ua : 'Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14'}
+      ]
+    }
+
+
+    ,{
+      browser : {
+        name : 'firefox',
+        mobile : '' // test
+      },
+      tests: [
+        {version:36, ua : 'Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0' }
+      ]
+    }
+
+
+
+   /*
+    , // firefox 36
+
+    // iphone / ipad / ipod
+    , //iphone safari 5
+    , // iPod safari 5
+    , // ipad safari 5.1
+
+    ,'Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1' // android 2.2.1
+    ,'Mozilla/5.0 (Linux; U; Android 2.1-update1; es-mx; SonyEricssonE10a Build/2.0.A.0.504) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17'
+    ,'Mozilla/5.0 (S60; SymbOS; Opera Mobi/SYB-1103211396; U; es-LA; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6 Opera 11.00' // opera mobile 11
+    ,'Opera/9.80 (Android 2.2.1; Linux; Opera Mobi/ADR-1107051709; U; pl) Presto/2.8.149 Version/11.10' //opera mobile 11
+    ,'Opera/9.80 (Android; Linux; Opera Mobi/ADR-1012272315; U; pl) Presto/2.7.60 Version/10.5'
+    ,'Mozilla/4.0 (compatible; Windows Mobile; WCE; Opera Mobi/WMD-50433; U; de) Presto/2.4.13 Version/10.00' // opera mobile 10
+*/  ]
+
+
+  function hiliteClass(str, compareTo){
+    if (typeof compareTo == 'undefined') {
+      return '';
+    }
+
+    return str == compareTo ? 'pass' : 'fail';
+  }
 
   $(document).ready(function(){
     
-    var currentBrowserUA = detectBrowser(navigator.userAgent);
-    $('#browser').append('Your browser is ' + currentBrowserUA.browser + ', version ' + currentBrowserUA.version);
+    var br = detectBrowser(navigator.userAgent);
+    $('#browser').append('Your browser is ' + br.name + ',<br> version ' + br.version + '<br> os ' + br.os + '<br> mobile: ' + br.mobile);
     
     var table = $('#results tbody');
-    userAgents.forEach(function(ua){
+    userAgents.forEach(function(obj){
 
-      var br = detectBrowser(ua),
-          str = '<tr><td>' + br.browser + '</td><td>'+ br.version + '</td><td>'+ ua + '</td></tr>';
+      var str = '';
+      obj.tests.forEach(function(test){
+        var br = detectBrowser(test.ua);
 
+
+        str += '<tr>' +
+                  '<td class="' + hiliteClass(br.name, obj.browser.name) + '">' + br.name + '</td>'
+                + '<td class="' + hiliteClass(br.version, test.version) + '">' + br.version + '</td>'
+                + '<td class="' + hiliteClass(br.os, obj.browser.os) + '">' + br.os + '</td>'
+                + '<td class="' + hiliteClass(br.mobile,  obj.browser.mobile) + '">' + br.mobile + '</td>'
+                + '<td>' + test.ua + '</td>'
+            ;
+
+
+      });
       table.append(str);
-    })
-  });
+    });
+
+  }); // ready
 
 
 </script>
