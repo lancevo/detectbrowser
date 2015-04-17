@@ -12,6 +12,9 @@
     table, tr, td, th {
       border: 1px solid #333;
     }
+    tbody {
+      border-bottom:4px solid #333;
+    }
     th, td {
       padding: 2px;
       vertical-align: top;
@@ -35,19 +38,46 @@
     .no-test {
 
     }
+
+    #testUA {
+      padding:20px;
+      background:#efefef;
+      margin:10px 10px 20px 10px;
+    }
+    input {
+      width:50%;
+      font-size:14px;
+    }
   </style>
 </head>
 <body>
   
 <h3 id="browser"></h3>
 
+
+<div id="testUA">
+  <h3>Test a user agent</h3>
+  <form>
+    <input type="text" /> <br>
+    <button>Test</button>
+  </form>
+  <div id="test-results"></div>
+</div>
+
 <div class="legend pass">Pass</div>
 <div class="legend fail">Fail</div>
 <div class="legend no-test">Not tested</div>
 
+<p>Many times, I won't be testing for OS because I want to combine the userAgent strings as much as possible in userAgents object.
+As long the detection returns a browser name, it satisfies my requirements. Don't worry, the detection still returns
+the browser name, even it's not tested in this table.</p>
 
 <table id="results">
   <thead>
+  <tr>
+    <th colspan="4"> detected results</th>
+    <th></th>
+  </tr>
   <tr>
     <th>browser</th>
     <th>version</th>
@@ -56,8 +86,7 @@
     <th>userAgent</th>
   </tr>
   </thead>
-  <tbody>
-  </tbody>
+
 </table>
 
 <script>
@@ -177,9 +206,9 @@
   $(document).ready(function(){
     
     var br = detectBrowser(navigator.userAgent);
-    $('#browser').append('Your browser is ' + br.name + ',<br> version ' + br.version + '<br> os ' + br.os + '<br> mobile: ' + br.mobile);
+    $('#browser').append('Your browser is: ' + br.name + ',<br> version: ' + br.version + '<br> os: ' + br.os + '<br> mobile: ' + br.mobile);
     
-    var table = $('#results tbody');
+    var table = $('#results');
     userAgents.forEach(function(obj){
 
       var str = '';
@@ -193,14 +222,26 @@
                 + '<td class="' + hiliteClass(br.os, obj.browser.os) + '">' + br.os + '</td>'
                 + '<td class="' + hiliteClass(br.mobile,  obj.browser.mobile) + '">' + br.mobile + '</td>'
                 + '<td>' + test.ua + '</td>'
+                + '</tr>'
             ;
-
-
       });
+
+      str = '<tbody>' + str + '</tbody>';
       table.append(str);
     });
 
   }); // ready
+
+  $('form button').on('click', function(ev){
+    ev.preventDefault();
+
+    var br = detectBrowser($('input').val());
+
+    $('#test-results').html(
+      'detected results:<br> browser: ' + br.name + ',<br> version: ' + br.version + '<br> os: ' + br.os + '<br> mobile: ' + br.mobile
+    );
+
+  })
 
 
 </script>
