@@ -19,6 +19,8 @@
   </style>
 </head>
 <body>
+  
+<h3 id="browser"></h3>
 
 <table id="results">
   <thead>
@@ -52,6 +54,10 @@
   ]
 
   $(document).ready(function(){
+    
+    var currentBrowserUA = detectBrowser(navigator.userAgent);
+    $('#browser').append('Your browser is ' + currentBrowserUA.browser + ', version ' + currentBrowserUA.version);
+    
     var table = $('#results tbody');
     userAgents.forEach(function(ua){
 
