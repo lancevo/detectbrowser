@@ -68,9 +68,8 @@
 <div class="legend fail">Fail</div>
 <div class="legend no-test">Not tested</div>
 
-<p>Many times, I won't be testing for OS because I want to combine the userAgent strings as much as possible in userAgents object.
-As long the detection returns a browser name, it satisfies my requirements. Don't worry, the detection still returns
-the browser name, even it's not tested in this table.</p>
+<p>There are many properties are not being tested (i.e.: OS), because I want to reduce defining test objects in userAgents object.
+As long the detection returns a browser name, it satisfies my requirements. </p>
 
 <table id="results">
   <thead>
@@ -276,7 +275,7 @@ the browser name, even it's not tested in this table.</p>
     var br = detectBrowser($('input').val());
 
     $('#test-results').html(
-      'detected results:<br> browser: ' + br.name + ',<br> version: ' + br.version + '<br> os: ' + br.os + '<br> mobile: ' + br.mobile
+      'detected results:<br> browser: ' + br.name + ',<br> version: ' + br.version + ',<br> longVersion: ' + br.longVersion + '<br> os: ' + br.os + '<br> mobile: ' + br.mobile
     );
 
   })
