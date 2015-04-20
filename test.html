@@ -75,12 +75,13 @@ the browser name, even it's not tested in this table.</p>
 <table id="results">
   <thead>
   <tr>
-    <th colspan="4"> detected results</th>
+    <th colspan="5"> detected results</th>
     <th></th>
   </tr>
   <tr>
     <th>browser</th>
     <th>version</th>
+    <th>long version</th>
     <th>os</th>
     <th>mobile?</th>
     <th>userAgent</th>
@@ -255,6 +256,7 @@ the browser name, even it's not tested in this table.</p>
         str += '<tr>' +
                   '<td class="' + hiliteClass(br.name, obj.browser.name) + '">' + br.name + '</td>'
                 + '<td class="' + hiliteClass(br.version, test.version) + '">' + br.version + '</td>'
+                + '<td class="">' + br.longVersion + '</td>'
                 + '<td class="' + hiliteClass(br.os, obj.browser.os) + '">' + br.os + '</td>'
                 + '<td class="' + hiliteClass(br.mobile,  obj.browser.mobile) + '">' + br.mobile + '</td>'
                 + '<td>' + test.ua + '</td>'
