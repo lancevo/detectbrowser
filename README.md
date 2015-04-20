@@ -1,6 +1,8 @@
 # detect browser
 
 A function to detect major browser type, version, and os.
+  
+See test page at <http://lancevo.github.io/detectbrowser/test.html>
 
 ```js
 var browser = detectBrowser(navigator.userAgent);
