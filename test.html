@@ -114,7 +114,7 @@ the browser name, even it's not tested in this table.</p>
     ,{
       browser : {
         name : 'safari',
-        mobile : '' // test
+        mobile : '' // still test for empty string, unless it's undefined
       },
       tests: [
         {version:7, ua : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.75.14 (KHTML, like Gecko) Version/7.0.3 Safari/7046A194A' }
@@ -126,7 +126,7 @@ the browser name, even it's not tested in this table.</p>
     ,{
       browser : {
         name : 'safari',
-        mobile : 'ipad' // test
+        mobile : 'ipad'
       },
       tests: [
         {version:5, ua : 'Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko ) Version/5.1 Mobile/9B176 Safari/7534.48.3' }
@@ -136,7 +136,7 @@ the browser name, even it's not tested in this table.</p>
     ,{
       browser : {
         name : 'safari',
-        mobile : 'iphone' // test
+        mobile : 'iphone'
       },
       tests: [
         {version:5, ua : 'Mozilla/5.0 (iPhone; U; fr; CPU iPhone OS 4_2_1 like Mac OS X; fr) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8C148a Safari/6533.18.5' }
@@ -146,10 +146,33 @@ the browser name, even it's not tested in this table.</p>
     ,{
       browser : {
         name : 'safari',
-        mobile : 'ipod' // test
+        mobile : 'ipod'
       },
       tests: [
         {version:5, ua : 'Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5'}
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'chrome',
+        mobile : ''
+      },
+      tests: [
+        {version:41, ua : 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'  }
+        ,{version:41, ua:'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.0 Safari/537.36'}
+        ,{version: 37, ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36'}
+      ]
+    }
+
+    ,{
+      browser : {
+        name : 'android',
+        mobile : 'android'
+      },
+      tests: [
+        {version:2, ua : 'Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1'  }
+
       ]
     }
 
@@ -164,6 +187,19 @@ the browser name, even it's not tested in this table.</p>
         ,{version:12, ua : 'Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14'}
       ]
     }
+    ,{
+      browser : {
+        name : 'opera',
+        mobile : 'opera mobi' // test
+      },
+      tests: [
+        {version:12, ua : 'Opera/12.02 (Android 4.1; Linux; Opera Mobi/ADR-1111101157; U; en-US) Presto/2.9.201 Version/12.02' }
+        ,{version:11, ua : 'Opera/9.80 (S60; SymbOS; Opera Mobi/SYB-1107071606; U; en) Presto/2.8.149 Version/11.10' }
+        ,{version:10, ua : 'Mozilla/4.0 (compatible; Windows Mobile; WCE; Opera Mobi/WMD-50433; U; de) Presto/2.4.13 Version/10.00'}
+        ,{version:10, ua: 'Opera/9.80 (Macintosh; Intel Mac OS X; Opera Mobi/27; U; en) Presto/2.4.18 Version/10.00'}
+      ]
+    }
+
 
 
     ,{

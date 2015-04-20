@@ -5,49 +5,92 @@
 
 
 
+
+/*
+if 2 or more matches, it will return the value that has the lowest value of indexOf
+If none is matched, defaultValue is returned or null
+*/
+
+var regex, matches;
+function matchPriority(str, pattern, defaultValue) {
+
+  regex = new RegExp(pattern,'ig');
+  matches = str.match(regex);
+  var index;
+  if (!matches) {
+    return typeof defaultValue == 'undefined' ? null : defaultValue;
+  } else if (matches.length == 1) {
+    return matches[0];
+  }
+
+  pattern = pattern.toLowerCase();
+
+  for (var i= 0, lastPos = str.length, p, l=matches.length; i<l; i++) {
+    pos = pattern.indexOf(matches[i].toLowerCase());
+    if (pos < lastPos) {
+      lastPos = pos;
+      index = i;
+    }
+  }
+  return matches[index];
+}
+
+function extractVersionNumber(str) {
+  var num;
+  if (str) {
+    num = str.match(/\d+[\.\d+]*/);
+    return num ? num[0] : num;
+  }
+  return null;
+}
+
+
 function detectBrowser(ua){
-  var browser, version, index, os, mobile;
+  var name, version, index, os, mobile;
 
-  browser =  ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || ['','other'];
 
-  browser = browser[1];
+  ua = ua.toLowerCase();
 
-  if (browser.match(/trident/i)) {
-    browser = 'MSIE';
-  } else if (ua.match(/opera/i)!=null) { // sometimes it detected as firefox
-    browser= 'Opera';
+  name = matchPriority(ua,'(opera|chrome|android|safari|firefox|trident|msie)', 'other').toLowerCase();
+
+  if (name === 'trident') {
+    name = 'msie';
   }
 
-  var tridentVersion = ua.match(/trident\/(\d+)/i),
-    safariVersion = ua.match(/Version\/(\d+)/);
+  var tridentVer = extractVersionNumber(matchPriority(ua,'trident[\\s|/](\\d+[\\.\\d+]*)')),
+      uaVersion = extractVersionNumber(matchPriority(ua,'version[\\s|/](\\d+[\\.\\d+]*)'));
 
-  index = ua.indexOf(browser);
 
-  if (tridentVersion!=null) {
-    version = parseInt(tridentVersion[1]) + 4;
-  } else if (browser==='Safari' && safariVersion!=null) {
-    version = safariVersion[1];
-  } else if (browser==='Opera' && safariVersion!=null) {
-    version = safariVersion[1];
+
+  if (tridentVer!=null) {
+    version = parseInt(tridentVer) + 4;
+  } else if (name==='safari' && uaVersion!=null) {
+    version = uaVersion;
+  } else if (name==='opera' && uaVersion!=null) {
+    version = uaVersion;
   } else {
-    version = parseInt(ua.substring(index + browser.length + 1));
+    index = ua.indexOf(name);
+    version = extractVersionNumber(ua.substring(index + name.length + 1));
   }
 
-  os = ua.match(/(windows|mac os x|linux|symbos)/i) || ['','other'];
-  os = os[1].toLowerCase();
+  os = matchPriority(ua,'(windows|mac os x|linux|symbos)','other').toLowerCase();
 
   /*
     Notes: iPod ua includes iPhone
-
    */
-  mobile = ua.match(/(ipod|ipad|iphone|android|opera mobi|mobile)/i) || ['',''];
+  mobile = matchPriority(ua,'(ipod|ipad|iphone|opera mobi|android|mobile)','').toLowerCase();
 
-  mobile = mobile[1];
+  if (name==='opera' && mobile!='' && mobile!='opera mobi') {
+    mobile = 'opera mobi';
+  } else if (name==='safari' && mobile=='android') {
+    name = 'android';
+  }
 
   return {
-    name: browser.toLowerCase(),
-    version: version,
-    os : os.toLowerCase(),
-    mobile: mobile.toLowerCase()
+    name: name,
+    version: parseInt(version),
+    longVersion: version,
+    os : os,
+    mobile: mobile
   };
 }
