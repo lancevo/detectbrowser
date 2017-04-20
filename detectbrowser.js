@@ -1,21 +1,21 @@
 /**
  https://github.com/lancevo/detectbrowser
- version: 0.02
+ version: 0.03
 */
 
 
 var detectBrowser = (function(){
   /*
-   if 2 or more matches, it will return the value that has the lowest value of indexOf
-   If none is matched, defaultValue is returned or null
+   if 2 or more matches, it will return the one that is matched first
+   If none is matched, it returns defaultValue (if assigned) or null
    */
 
-  var regex, matches;
   function matchPriority(str, pattern, defaultValue) {
 
-    regex = new RegExp(pattern,'ig');
-    matches = str.match(regex);
-    var index;
+    var regex = new RegExp(pattern,'ig'),
+    	matches = str.match(regex),
+	    index;
+	    
     if (!matches) {
       return typeof defaultValue == 'undefined' ? null : defaultValue;
     } else if (matches.length == 1) {
@@ -47,9 +47,8 @@ var detectBrowser = (function(){
   function detectBrowser(ua){
     var name, version, index, os, mobile;
 
-
-    ua = ua.toLowerCase();
-
+    ua = (typeof ua === 'undefined' ? navigator.userAgent : ua).toLowerCase();
+	  
     name = matchPriority(ua,'(opera|chrome|android|safari|firefox|trident|msie)', 'other').toLowerCase();
 
     if (name === 'trident') {
@@ -58,8 +57,6 @@ var detectBrowser = (function(){
 
     var tridentVer = extractVersionNumber(matchPriority(ua,'trident[\\s|/](\\d+[\\.\\d+]*)')),
       uaVersion = extractVersionNumber(matchPriority(ua,'version[\\s|/](\\d+[\\.\\d+]*)'));
-
-
 
     if (tridentVer!=null) {
       version = parseInt(tridentVer) + 4;
@@ -96,4 +93,3 @@ var detectBrowser = (function(){
 
   return detectBrowser;
 })();
-
