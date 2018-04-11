@@ -4,28 +4,24 @@
 */
 
 
-var detectBrowser = (function(){
-  /*
-   if 2 or more matches, it will return the one that is matched first
-   If none is matched, it returns defaultValue (if assigned) or null
-   */
+var detectBrowser = (function () {
 
-  function matchPriority(str, pattern, defaultValue) {
+  function getFirstMatch(str, pattern, defaultValue) {
 
-    var regex = new RegExp(pattern,'ig'),
-    	matches = str.match(regex),
-	    index;
-	    
+    var regex = new RegExp(pattern, 'ig'),
+      matches = str.match(regex),
+      index;
+
     if (!matches) {
-      return typeof defaultValue == 'undefined' ? null : defaultValue;
+      return typeof defaultValue === 'undefined' ? null : defaultValue;
     } else if (matches.length == 1) {
       return matches[0];
     }
 
     pattern = pattern.toLowerCase();
 
-    for (var i= 0, lastPos = str.length, p, l=matches.length; i<l; i++) {
-      pos = pattern.indexOf(matches[i].toLowerCase());
+    for (var i = 0, lastPos = str.length, p, l = matches.length; i < l; i++) {
+      var pos = pattern.indexOf(matches[i].toLowerCase());
       if (pos < lastPos) {
         lastPos = pos;
         index = i;
@@ -34,7 +30,7 @@ var detectBrowser = (function(){
     return matches[index];
   }
 
-  function extractVersionNumber(str) {
+  function getVersion(str) {
     var num;
     if (str) {
       num = str.match(/\d+[\.\d+]*/);
@@ -43,42 +39,39 @@ var detectBrowser = (function(){
     return null;
   }
 
-
-  function detectBrowser(ua){
+  function detectBrowser(ua) {
     var name, version, index, os, mobile;
 
     ua = (typeof ua === 'undefined' ? navigator.userAgent : ua).toLowerCase();
-	  
-    name = matchPriority(ua,'(opera|chrome|android|safari|firefox|trident|msie)', 'other').toLowerCase();
+    name = getFirstMatch(ua, '(edge|opera|chrome|android|safari|firefox|trident|msie)', 'other').toLowerCase();
 
     if (name === 'trident') {
       name = 'msie';
     }
 
-    var tridentVer = extractVersionNumber(matchPriority(ua,'trident[\\s|/](\\d+[\\.\\d+]*)')),
-      uaVersion = extractVersionNumber(matchPriority(ua,'version[\\s|/](\\d+[\\.\\d+]*)'));
+    var tridentVer = getVersion(getFirstMatch(ua, 'trident[\\s|/](\\d+[\\.\\d+]*)')),
+      uaVersion = getVersion(getFirstMatch(ua, 'version[\\s|/](\\d+[\\.\\d+]*)'));
 
-    if (tridentVer!=null) {
+    if (tridentVer != null) {
       version = parseInt(tridentVer) + 4;
-    } else if (name==='safari' && uaVersion!=null) {
+    } else if (name === 'safari' && uaVersion != null) {
       version = uaVersion;
-    } else if (name==='opera' && uaVersion!=null) {
+    } else if (name === 'opera' && uaVersion != null) {
       version = uaVersion;
     } else {
       index = ua.indexOf(name);
-      version = extractVersionNumber(ua.substring(index + name.length + 1));
+      version = getVersion(ua.substring(index + name.length + 1));
     }
 
-    os = matchPriority(ua,'(windows|mac os x|linux|symbos)','other').toLowerCase();
-
+    os = getFirstMatch(ua, '(windows|mac os x|linux|symbos)', 'other').toLowerCase();
     /*
      Notes: iPod ua includes iPhone
      */
-    mobile = matchPriority(ua,'(ipod|ipad|iphone|opera mobi|android|mobile)','').toLowerCase();
+    mobile = getFirstMatch(ua, '(ipod|ipad|iphone|opera mobi|android|mobile)', '').toLowerCase();
 
-    if (name==='opera' && mobile!='' && mobile!='opera mobi') {
+    if (name === 'opera' && mobile != '' && mobile != 'opera mobi') {
       mobile = 'opera mobi';
-    } else if (name==='safari' && mobile=='android') {
+    } else if (name === 'safari' && mobile == 'android') {
       name = 'android';
     }
 
@@ -86,7 +79,7 @@ var detectBrowser = (function(){
       name: name,
       version: parseInt(version),
       longVersion: version,
-      os : os,
+      os: os,
       mobile: mobile
     };
   }
